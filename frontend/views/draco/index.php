@@ -8,7 +8,7 @@
 
 use common\models;
 
-echo '<div class="draco-index"><h1>Hello,Draco</h1><hr></div>';
+echo '<div class="draco-index"><h1>Hello,Ch</h1><hr></div>';
 
 echo models\UsersModel::tableName();
 
