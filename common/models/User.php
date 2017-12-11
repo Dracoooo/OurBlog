@@ -20,6 +20,8 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ * @property integer $authority
+ *
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -185,5 +187,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * 验证是否满足登陆权限
+     * @param $authority 所需要的权限值
+     * @return bool
+     */
+    public function validateAuthority($authority){
+        return $this->authority >= $authority;
     }
 }

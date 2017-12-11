@@ -8,13 +8,13 @@ use Yii;
  * This is the model class for table "users_info".
  *
  * @property integer $user_id
- * @property string $user_name
+ * @property string $user_nickname
  * @property string $user_sex
  * @property string $user_birthday
  * @property string $user_description
  * @property string $user_head_img
  *
- * @property UsersModel $user
+ * @property User $user
  */
 class UsersInfoModel extends \yii\db\ActiveRecord
 {
@@ -34,10 +34,10 @@ class UsersInfoModel extends \yii\db\ActiveRecord
         return [
             [['user_id', 'user_name'], 'required'],
             [['user_id'], 'integer'],
-            [['user_name', 'user_birthday', 'user_head_img'], 'string', 'max' => 45],
+            [['user_nickname', 'user_birthday', 'user_head_img'], 'string', 'max' => 45],
             [['user_sex'], 'string', 'max' => 16],
             [['user_description'], 'string', 'max' => 255],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => UsersModel::className(), 'targetAttribute' => ['user_id' => 'user_id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
         ];
     }
 
@@ -48,11 +48,11 @@ class UsersInfoModel extends \yii\db\ActiveRecord
     {
         return [
             'user_id' => 'User ID',
-            'user_name' => 'User Name',
-            'user_sex' => 'User Sex',
-            'user_birthday' => 'User Birthday',
-            'user_description' => 'User Description',
-            'user_head_img' => 'User Head Img',
+            'user_nickname' => '用户昵称',
+            'user_sex' => '性别',
+            'user_birthday' => '生日',
+            'user_description' => '个性签名',
+            'user_head_img' => '头像',
         ];
     }
 
@@ -61,6 +61,6 @@ class UsersInfoModel extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(UsersModel::className(), ['user_id' => 'user_id']);
+        return $this->hasOne(User::className(), ['user_id' => 'user_id']);
     }
 }
