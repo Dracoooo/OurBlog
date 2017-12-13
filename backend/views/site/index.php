@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = Yii::t('common',',Small Club Backend');
 ?>
 <div class="site-index">
 

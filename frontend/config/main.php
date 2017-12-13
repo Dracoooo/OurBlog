@@ -10,6 +10,7 @@ return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language'=>'zh-CN',
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
@@ -33,6 +34,20 @@ return [
                 ],
             ],
         ],
+
+        //语言包配置
+        'i18n'=>[
+            'translations'=>[
+                '*'=>[
+                    'class'=>'yii\i18n\PhpMessageSource',
+                    //'basePath'=>'/messages',
+                    'fileMap'=>[
+                        'common'=>'common.php',
+                    ]
+                ]
+            ]
+        ],
+
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],

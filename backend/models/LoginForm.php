@@ -50,6 +50,15 @@ class LoginForm extends Model
         }
     }
 
+    public  function  attributeLabels()
+    {
+        return [
+        'username'=>Yii::t('common','Username'),
+        'password'=>Yii::t('common','Password'),
+        'rememberMe'=>Yii::t('common','remember me'),
+       ];
+    }
+
     /**
      * Logs in a user using the provided username and password.
      *

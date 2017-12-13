@@ -11,6 +11,8 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+
+    'language'=>'zh-CN',
     'modules' => [],
     'components' => [
         'request' => [
@@ -25,6 +27,20 @@ return [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
         ],
+
+        //语言包配置
+        'i18n'=>[
+            'translations'=>[
+                '*'=>[
+                    'class'=>'yii\i18n\PhpMessageSource',
+                    //'basePath'=>'/messages',
+                    'fileMap'=>[
+                        'common'=>'common.php',
+                    ]
+                ]
+            ]
+        ],
+
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
