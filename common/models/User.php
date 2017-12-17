@@ -197,4 +197,69 @@ class User extends ActiveRecord implements IdentityInterface
     public function validateAuthority($authority){
         return $this->authority >= $authority;
     }
+
+    /**
+     * 得到粉丝数量
+     * @return int 粉丝数量
+     */
+    public function getFansAmount(){
+        //TODO:待写
+        return 1;
+    }
+
+    /**
+     * 得到所有粉丝用户
+     * @return array 用户数组
+     */
+    public function getAllFansUser(){
+        //TODO:待写
+        return array(new User());
+    }
+
+    /**
+     * 得到关注者数量
+     * @return int 关注者数量
+     */
+    public function getIdolAmount(){
+        //TODO:待写
+        return 1;
+    }
+
+    /**
+     * 得到所有关注者用户
+     * @return array 用户数组
+     */
+    public function getAllIdolUser(){
+        //TODO:待写
+        return array(new User());
+    }
+
+
+    /**
+     * 得到用户信息
+     * @return UsersInfoModel
+     */
+    public function getUserInfo(){
+        //TODO:待写
+        return new UsersInfoModel();
+    }
+
+    /**
+     * 得到用户发表的所有博文
+     * @return array 所有博文
+     */
+    public function getAllPosts(){
+        //TODO:待写
+        return array(new PostsModel());
+    }
+
+    /**
+     * 得到用户发表的所有评论
+     * @return array 所有评论
+     */
+    public function getAllComments(){
+        //TODO:待写
+        return array(new CommentsModel());
+    }
+
 }

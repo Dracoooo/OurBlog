@@ -13,8 +13,8 @@ use Yii;
  * @property string $comment_content
  * @property string $comment_create_time
  *
- * @property PostsModel $post
- * @property UsersModel $user
+ * @property Posts $post
+ * @property User $user
  */
 class CommentsModel extends \yii\db\ActiveRecord
 {
@@ -36,8 +36,8 @@ class CommentsModel extends \yii\db\ActiveRecord
             [['user_id', 'post_id'], 'integer'],
             [['comment_content'], 'string'],
             [['comment_create_time'], 'safe'],
-            [['post_id'], 'exist', 'skipOnError' => true, 'targetClass' => PostsModel::className(), 'targetAttribute' => ['post_id' => 'post_id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => UsersModel::className(), 'targetAttribute' => ['user_id' => 'user_id']],
+            [['post_id'], 'exist', 'skipOnError' => true, 'targetClass' => Posts::className(), 'targetAttribute' => ['post_id' => 'post_id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -56,18 +56,20 @@ class CommentsModel extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * 得到该评论对应的文章
+     * @return \common\models\PostsModel
      */
     public function getPost()
     {
-        return $this->hasOne(PostsModel::className(), ['post_id' => 'post_id']);
+        return $this->hasOne(Posts::className(), ['post_id' => 'post_id']);
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * 得到发表该评论的用户
+     * @return \common\models\User
      */
     public function getUser()
     {
-        return $this->hasOne(UsersModel::className(), ['user_id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

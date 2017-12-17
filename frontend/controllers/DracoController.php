@@ -9,11 +9,14 @@
 namespace frontend\controllers;
 
 use yii\web\Controller;
+use common\models;
 
 class DracoController extends Controller{
 
     public function actionIndex(){
 //        echo "Hello,Draco";
+        $m =  new models\UsersInfoModel();
+
         return $this->render('index');
     }
 

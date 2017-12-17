@@ -32,12 +32,12 @@ class UsersInfoModel extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'user_name'], 'required'],
+            [['user_id', 'user_nickname'], 'required'],
             [['user_id'], 'integer'],
             [['user_nickname', 'user_birthday', 'user_head_img'], 'string', 'max' => 45],
             [['user_sex'], 'string', 'max' => 16],
             [['user_description'], 'string', 'max' => 255],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -48,19 +48,20 @@ class UsersInfoModel extends \yii\db\ActiveRecord
     {
         return [
             'user_id' => 'User ID',
-            'user_nickname' => '用户昵称',
-            'user_sex' => '性别',
-            'user_birthday' => '生日',
-            'user_description' => '个性签名',
-            'user_head_img' => '头像',
+            'user_nickname' => 'User Nickname',
+            'user_sex' => 'User Sex',
+            'user_birthday' => 'User Birthday',
+            'user_description' => 'User Description',
+            'user_head_img' => 'User Head Img',
         ];
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * 得到该用户信息所对应的用户
+     * @return \common\models\User
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['user_id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

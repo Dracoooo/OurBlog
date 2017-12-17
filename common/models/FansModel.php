@@ -10,8 +10,8 @@ use Yii;
  * @property integer $user_id
  * @property integer $fan_id
  *
- * @property UsersModel $fan
- * @property UsersModel $user
+ * @property User $fan
+ * @property User $user
  */
 class FansModel extends \yii\db\ActiveRecord
 {
@@ -31,8 +31,8 @@ class FansModel extends \yii\db\ActiveRecord
         return [
             [['user_id', 'fan_id'], 'required'],
             [['user_id', 'fan_id'], 'integer'],
-            [['fan_id'], 'exist', 'skipOnError' => true, 'targetClass' => UsersModel::className(), 'targetAttribute' => ['fan_id' => 'user_id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => UsersModel::className(), 'targetAttribute' => ['user_id' => 'user_id']],
+            [['fan_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['fan_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -48,18 +48,20 @@ class FansModel extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * 得到关注者的用户
+     * @return \common\models\User
      */
     public function getFan()
     {
-        return $this->hasOne(UsersModel::className(), ['user_id' => 'fan_id']);
+        return $this->hasOne(User::className(), ['id' => 'fan_id']);
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * 得到被关注者的用户
+     * @return \common\models\User
      */
     public function getUser()
     {
-        return $this->hasOne(UsersModel::className(), ['user_id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

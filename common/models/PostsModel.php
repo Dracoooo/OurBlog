@@ -17,9 +17,9 @@ use Yii;
  * @property string $post_create_time
  * @property string $post_update_time
  *
- * @property CommentsModel[] $comments
- * @property CategoryModel $cat
- * @property UsersModel $user
+ * @property Comments[] $comments
+ * @property Category $cat
+ * @property User $user
  */
 class PostsModel extends \yii\db\ActiveRecord
 {
@@ -41,8 +41,8 @@ class PostsModel extends \yii\db\ActiveRecord
             [['post_content'], 'string'],
             [['post_create_time', 'post_update_time'], 'safe'],
             [['post_title'], 'string', 'max' => 45],
-            [['cat_id'], 'exist', 'skipOnError' => true, 'targetClass' => CategoryModel::className(), 'targetAttribute' => ['cat_id' => 'cat_id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => UsersModel::className(), 'targetAttribute' => ['user_id' => 'user_id']],
+            [['cat_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['cat_id' => 'cat_id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -65,26 +65,71 @@ class PostsModel extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * 得到该文章所对应的评论信息
+     * @return \common\models\CommentsModel
      */
     public function getComments()
     {
-        return $this->hasMany(CommentsModel::className(), ['post_id' => 'post_id']);
+        return $this->hasMany(Comments::className(), ['post_id' => 'post_id']);
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * 得到该文章所对应的分类信息
+     * @return \common\models\CategoryModel
      */
     public function getCat()
     {
-        return $this->hasOne(CategoryModel::className(), ['cat_id' => 'cat_id']);
+        return $this->hasOne(Category::className(), ['cat_id' => 'cat_id']);
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * 得到该文章所对应的用户
+     * @return \common\models\User
      */
     public function getUser()
     {
-        return $this->hasOne(UsersModel::className(), ['user_id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+
+    /**
+     * 得到分页对应的所有文章
+     * @param $pageIndex 第几页
+     * @param $amountPerPage 每页显示的数量
+     * @return array 文章数组
+     */
+    public static function getPostsByPageIndex($pageIndex,$amountPerPage){
+        //TODO：待写
+        return array(new PostsModel());
+    }
+
+    /**
+     * 得到该文章下所有评论
+     * @return array
+     */
+    public function getAllComments(){
+        //TODO：待写
+        return array(new CommentsModel());
+    }
+
+    /**
+     * 得到文章下评论分页对应的评论
+     * @param $pageIndex 第几页
+     * @param $amountPerPage 每页显示的数量
+     * @return array 评论数组
+     */
+    public function getCommentsByPageIndex($pageIndex,$amountPerPage){
+        //TODO：待写
+        return array(new CommentsModel());
+    }
+
+    /**
+     * 筛选指定分类的所有文章
+     * @param $cat_id 分类ID
+     * @return array 文章数组
+     */
+    public function getPostsByCatId($cat_id){
+        return array(new PostsModel());
+    }
+
 }
