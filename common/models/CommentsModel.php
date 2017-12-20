@@ -13,7 +13,7 @@ use Yii;
  * @property string $comment_content
  * @property string $comment_create_time
  *
- * @property Posts $post
+ * @property PostsModel $post
  * @property User $user
  */
 class CommentsModel extends \yii\db\ActiveRecord
@@ -36,7 +36,7 @@ class CommentsModel extends \yii\db\ActiveRecord
             [['user_id', 'post_id'], 'integer'],
             [['comment_content'], 'string'],
             [['comment_create_time'], 'safe'],
-            [['post_id'], 'exist', 'skipOnError' => true, 'targetClass' => Posts::className(), 'targetAttribute' => ['post_id' => 'post_id']],
+            [['post_id'], 'exist', 'skipOnError' => true, 'targetClass' => PostsModel::className(), 'targetAttribute' => ['post_id' => 'post_id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -61,7 +61,7 @@ class CommentsModel extends \yii\db\ActiveRecord
      */
     public function getPost()
     {
-        return $this->hasOne(Posts::className(), ['post_id' => 'post_id']);
+        return $this->hasOne(PostsModel::className(), ['post_id' => 'post_id']);
     }
 
     /**

@@ -17,8 +17,8 @@ use Yii;
  * @property string $post_create_time
  * @property string $post_update_time
  *
- * @property Comments[] $comments
- * @property Category $cat
+ * @property CommentsModel[] $comments
+ * @property CategoryModel $cat
  * @property User $user
  */
 class PostsModel extends \yii\db\ActiveRecord
@@ -41,7 +41,7 @@ class PostsModel extends \yii\db\ActiveRecord
             [['post_content'], 'string'],
             [['post_create_time', 'post_update_time'], 'safe'],
             [['post_title'], 'string', 'max' => 45],
-            [['cat_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['cat_id' => 'cat_id']],
+            [['cat_id'], 'exist', 'skipOnError' => true, 'targetClass' => CategoryModel::className(), 'targetAttribute' => ['cat_id' => 'cat_id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -70,7 +70,7 @@ class PostsModel extends \yii\db\ActiveRecord
      */
     public function getComments()
     {
-        return $this->hasMany(Comments::className(), ['post_id' => 'post_id']);
+        return $this->hasMany(CommentsModel::className(), ['post_id' => 'post_id']);
     }
 
     /**
@@ -79,7 +79,7 @@ class PostsModel extends \yii\db\ActiveRecord
      */
     public function getCat()
     {
-        return $this->hasOne(Category::className(), ['cat_id' => 'cat_id']);
+        return $this->hasOne(CategoryModel::className(), ['cat_id' => 'cat_id']);
     }
 
     /**
@@ -99,8 +99,7 @@ class PostsModel extends \yii\db\ActiveRecord
      * @return array 文章数组
      */
     public static function getPostsByPageIndex($pageIndex,$amountPerPage){
-        //TODO：待写
-        return array(new PostsModel());
+        return PostsModel::find()->offset(($pageIndex-1)*$pageIndex)->limit($amountPerPage)->all();
     }
 
     /**
@@ -108,8 +107,7 @@ class PostsModel extends \yii\db\ActiveRecord
      * @return array
      */
     public function getAllComments(){
-        //TODO：待写
-        return array(new CommentsModel());
+        return $this->comments;
     }
 
     /**
@@ -119,8 +117,7 @@ class PostsModel extends \yii\db\ActiveRecord
      * @return array 评论数组
      */
     public function getCommentsByPageIndex($pageIndex,$amountPerPage){
-        //TODO：待写
-        return array(new CommentsModel());
+        return CommentsModel::find()->where(['post_id'=>$this->post_id])->offset(($pageIndex-1)*$pageIndex)->limit($amountPerPage)->all();
     }
 
     /**
@@ -128,8 +125,8 @@ class PostsModel extends \yii\db\ActiveRecord
      * @param $cat_id 分类ID
      * @return array 文章数组
      */
-    public function getPostsByCatId($cat_id){
-        return array(new PostsModel());
+    public static function getPostsByCatId($cat_id){
+        return PostsModel::findAll(['cat_id'=>$cat_id]);
     }
 
 }

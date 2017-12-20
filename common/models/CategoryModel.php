@@ -10,7 +10,7 @@ use Yii;
  * @property integer $cat_id
  * @property string $cat_name
  *
- * @property Posts[] $posts
+ * @property PostsModel[] $posts
  */
 class CategoryModel extends \yii\db\ActiveRecord
 {
@@ -50,7 +50,7 @@ class CategoryModel extends \yii\db\ActiveRecord
      */
     public function getPosts()
     {
-        return $this->hasMany(Posts::className(), ['cat_id' => 'cat_id']);
+        return $this->hasMany(PostsModel::className(), ['cat_id' => 'cat_id']);
     }
 
 
@@ -59,8 +59,7 @@ class CategoryModel extends \yii\db\ActiveRecord
      * @return array
      */
     public function getAllPosts(){
-        //TODO: 待写
-        return array(new PostsModel());
+        return $this->posts;
     }
 
     /**
@@ -70,7 +69,6 @@ class CategoryModel extends \yii\db\ActiveRecord
      * @return array 文章数组
      */
     public function getPostsByPageIndex($pageIndex,$amountPerPage){
-        //TODO：待写
-        return array(new PostsModel());
+        return PostsModel::find()->where(['cat_id'=>$this->cat_id])->offset(($pageIndex-1)*$pageIndex)->limit($amountPerPage)->all();
     }
 }

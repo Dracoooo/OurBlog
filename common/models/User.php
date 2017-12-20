@@ -203,8 +203,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @return int 粉丝数量
      */
     public function getFansAmount(){
-        //TODO:待写
-        return 1;
+        return count(FansModel::findAll(['user_id'=>$this->id]));
     }
 
     /**
@@ -212,8 +211,12 @@ class User extends ActiveRecord implements IdentityInterface
      * @return array 用户数组
      */
     public function getAllFansUser(){
-        //TODO:待写
-        return array(new User());
+        $fans = FansModel::findAll(['user_id'=>$this->id]);
+        $result = array();
+        foreach ($fans as $value){
+            $result[] = $value->fan;
+        }
+        return $result;
     }
 
     /**
@@ -221,8 +224,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @return int 关注者数量
      */
     public function getIdolAmount(){
-        //TODO:待写
-        return 1;
+        return count(FansModel::findAll(['fan_id'=>$this->id]));;
     }
 
     /**
@@ -230,8 +232,12 @@ class User extends ActiveRecord implements IdentityInterface
      * @return array 用户数组
      */
     public function getAllIdolUser(){
-        //TODO:待写
-        return array(new User());
+        $users = FansModel::findAll(['fan_id'=>$this->id]);
+        $result = array();
+        foreach ($users as $value){
+            $result[] = $value->user;
+        }
+        return $result;
     }
 
 
@@ -240,8 +246,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @return UsersInfoModel
      */
     public function getUserInfo(){
-        //TODO:待写
-        return new UsersInfoModel();
+        return UsersInfoModel::findOne(['user_id'=>$this->id]);
     }
 
     /**
@@ -249,17 +254,37 @@ class User extends ActiveRecord implements IdentityInterface
      * @return array 所有博文
      */
     public function getAllPosts(){
-        //TODO:待写
-        return array(new PostsModel());
+        return PostsModel::findAll(['user_id'=>$this->id]);
     }
+
+    /**
+     * 得到该分类下分页对应的文章
+     * @param $pageIndex 第几页
+     * @param $amountPerPage 每页显示的数量
+     * @return array 文章数组
+     */
+    public function getPostsByPageIndex($pageIndex,$amountPerPage){
+        return PostsModel::find()->where(['user_id'=>$this->id])->offset(($pageIndex-1)*$pageIndex)->limit($amountPerPage)->all();
+    }
+
 
     /**
      * 得到用户发表的所有评论
      * @return array 所有评论
      */
     public function getAllComments(){
-        //TODO:待写
-        return array(new CommentsModel());
+        return CommentsModel::findAll(['user_id'=>$this->id]);
     }
+
+    /**
+     * 得到文章下评论分页对应的评论
+     * @param $pageIndex 第几页
+     * @param $amountPerPage 每页显示的数量
+     * @return array 评论数组
+     */
+    public function getCommentsByPageIndex($pageIndex,$amountPerPage){
+        return CommentsModel::find()->where(['user_id'=>$this->id])->offset(($pageIndex-1)*$pageIndex)->limit($amountPerPage)->all();
+    }
+
 
 }
