@@ -113,6 +113,13 @@ class DracoController extends Controller{
 //        echo  print_r($user->getCommentsByPageIndex(1,2));
 
 
+//        获得所有关注用户所有文章
+//        $user = models\User::findOne(['id'=>2]);
+//        echo  print_r($user->getIdolPosts());
+
+//       获得所有关注用户所有文章分页（每页2条，看第1页）
+//        $user = models\User::findOne(['id'=>2]);
+//        echo  print_r($user->getIdolPostsByPageIndex(1,2));
 
 
         echo '</pre>';

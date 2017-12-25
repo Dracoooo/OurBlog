@@ -224,7 +224,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @return int 关注者数量
      */
     public function getIdolAmount(){
-        return count(FansModel::findAll(['fan_id'=>$this->id]));;
+        return count(FansModel::findAll(['fan_id'=>$this->id]));
     }
 
     /**
@@ -286,5 +286,41 @@ class User extends ActiveRecord implements IdentityInterface
         return CommentsModel::find()->where(['user_id'=>$this->id])->offset(($pageIndex-1)*$pageIndex)->limit($amountPerPage)->all();
     }
 
+    /**
+     * @return array 关注用户发表的文章数组（按最新时间排序）
+     */
+    public function getIdolPosts(){
+        $idols_id_str = $this->getIdolsIdStr();    //得到关注用户id 的字符串，用于MySQL查询用
+        return PostsModel::find()->where('user_id in('.$idols_id_str.')')->orderBy('post_create_time desc')->all();  //按照用户id 查询，按照最新发布时间排序
+    }
+
+    /**
+     * 关注用户发表的文章数组分页（按最新时间排序）
+     * @param $pageIndex 第几页
+     * @param $amountPerPage 每页显示的数量
+     * @return array|ActiveRecord[]
+     */
+    public function getIdolPostsByPageIndex($pageIndex,$amountPerPage){
+        $idols_id_str = $this->getIdolsIdStr(); //得到关注用户id 的字符串，用于MySQL查询用
+        return PostsModel::find()->where('user_id in('.$idols_id_str.')')->orderBy('post_create_time desc')->offset(($pageIndex-1)*$pageIndex)->limit($amountPerPage)->all();//按照用户id 查询，按照最新发布时间排序，带分页
+    }
+
+    /**
+     * 得到关注用户id的字符串
+     * @return string
+     */
+    private function getIdolsIdStr(){
+        $idols = FansModel::findAll(['fan_id'=>$this->id]);   //寻找所有关注的用户
+        $idols_id_str = '';   //声明字符串变量
+        $amount = count($idols);  //得到关注用户数量
+        for($i=0;$i<$amount;$i++){
+            $idols_id_str .= $idols[$i]->user_id;  //得到用户id
+            if($i==$amount-1){
+                break;   //如果是最后一个id 则不需要添加逗号
+            }
+            $idols_id_str .= ',';   //添加逗号做分割
+        }
+        return $idols_id_str;  //返回字符串
+    }
 
 }
